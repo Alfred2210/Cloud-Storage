@@ -1,0 +1,28 @@
+{# register.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2 class="text-uppercase text-center mb-5">Crée un compte </h2>
+
+
+    {{ form_start(registrationForm) }}
+    {{ form_row(registrationForm.prenom, { label: 'Prenom'|trans }) }}
+    {{ form_row(registrationForm.nom, { label: 'Nom'|trans }) }}
+    {{ form_row(registrationForm.mail) }}
+    {{ form_row(registrationForm.plainPassword, { label: 'Password' }) }}
+    {{ form_row(registrationForm.agreeTerms, { label: 'Accepter'|trans }) }}
+
+    <button type="submit" class="btn btn-success">{{ 'S\'inscrire'|trans }}</button>
+    {{ form_end(registrationForm) }}
+
+
+
+    <p class="text-center text-muted mt-5 mb-0">Vous avez un compte ? <a href="{{ path('app_register') }}"
+            class="fw-bold text-body"><u>Se connecter</u></a></p>
+{% endblock %}
+
+               
+
+
+
+
