@@ -22,5 +22,6 @@
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
 
     <button class="btn btn-lg btn-success" type="submit">{{ 'Connexion'|trans }}</button>
+    <p class = "mt-3">Vous n'avez pas de compte ? <a href="{{ path('app_register') }}">Inscrivez-vous</a></p>
   </form>
 {% endblock %}
