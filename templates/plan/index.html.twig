@@ -1,20 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PlanController!{% endblock %}
+{% block stylesheets %}
+    
+    <style>
+  
+  .container-fluid{
+    border: 100px solid black;
+  }
+    </style>
+{% endblock %}
+
+{% block page_class %}
+plans
+{% endblock %}
+
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <section class="text-center">
+        <h4 class="fw-bold ">Nos Plans</h4>
+    </section>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="row justify-content-center">
+    {% for plan in plans %}
+        <div class="col-md-3 mx-auto">
+            <div class="card border border-dark">
+                <div class="mx-2 card-body">
+                    <h5 class="card-title my-2">{{plan.getNom}}</h5>
+                    <p class="h2 fw-bold">€{{plan.getPrix}}<small class="text-muted" style="font-size: 18px;">/EUR</small></p>
+                    <a href="#" class="btn btn-outline-success">Buy {{plan.getNom}}</a>
+                </div>
+                <div class="card-footer">
+                    <p class="text-uppercase fw-bold" style="font-size: 12px;">Inclus</p>
+                        {% if plan.getNom=='Basic' %}
+                            <ul>
+                                <li>20 GO Stockage</li>
+                                <li>2 User</li>
+                                <li>1 Project</li>
+                                <li>1000 Messages</li>
+                                <li> Secure Online Transfer </li>
+                            </ul>
+                        {% elseif plan.getNom=='Standard' %}
+                            <ul>
+                                <li>50 GO Stockage</li>
+                                <li>5 User</li>
+                                <li>10 Project</li>
+                                <li>5000 Messages</li>
+                                <li>Secure Online Transfer</li>
+                            </ul>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Alfred/Documents/Informatique/Projet_annuel/Cloud_Storage/src/Controller/PlanController.php'|file_link(0) }}">src/Controller/PlanController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Alfred/Documents/Informatique/Projet_annuel/Cloud_Storage/templates/plan/index.html.twig'|file_link(0) }}">templates/plan/index.html.twig</a></code></li>
-    </ul>
-</div>
+                        {% elseif plan.getNom=='Premium' %}
+                            <ul>
+                                <li>100 GO Stockage</li>
+                                <li>10 User</li>
+                                <li>20 Project</li>
+                                <li>Support 24/7</li>
+                                <li> Secure Online Transfer </li>
+                                <li> Secure Account</li>
+                                
+                            </ul>
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
 {% endblock %}
