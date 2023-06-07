@@ -24,7 +24,7 @@ private $planRepository;
 
         $plans = $this->planRepository->findAll();
 
-        return $this->render('plan/index.html.twig', [
+        return $this->render('plan/plan.html.twig', [
             'plans' => $plans,
         ]);
     }

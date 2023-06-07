@@ -2,12 +2,6 @@
 
 {% block stylesheets %}
     
-    <style>
-  
-  .container-fluid{
-    border: 100px solid black;
-  }
-    </style>
 {% endblock %}
 
 {% block page_class %}
@@ -27,7 +21,10 @@ plans
                 <div class="mx-2 card-body">
                     <h5 class="card-title my-2">{{plan.getNom}}</h5>
                     <p class="h2 fw-bold">€{{plan.getPrix}}<small class="text-muted" style="font-size: 18px;">/EUR</small></p>
-                    <a href="#" class="btn btn-outline-success">Buy {{plan.getNom}}</a>
+                    <form action="{{ path('app_stripe_checkout', { 'planId': plan.id }) }}" method="POST">
+                        <input type="hidden" name="planId" value="{{plan.id}}">
+                        <input class="btn btn-outline-success" type="submit" value= "Buy {{plan.getNom()}}" >
+                    </form>
                 </div>
                 <div class="card-footer">
                     <p class="text-uppercase fw-bold" style="font-size: 12px;">Inclus</p>
