@@ -57,8 +57,6 @@ class FilesController extends AbstractController
         if ($mime === 'application/pdf') {
             $pdfPath = $this->getParameter('kernel.project_dir') . '/public/uploads/' . $fileName;
             $pdf = new Mpdf();
-            $pdf->SetImportUse();
-
             $pagesCount = $pdf->SetSourceFile($pdfPath);
             for ($page = 1; $page <= $pagesCount; $page++) {
                 $pdf->AddPage();
