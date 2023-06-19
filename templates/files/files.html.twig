@@ -6,118 +6,166 @@
 {% block body %}
 
 
+
+	<style>
+
+            .sidebar {
+            width: 250px;
+            background-color: #33698F;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: width 0.3s ease;
+            font-family: 'Suwannaphum';
+        }
+
+        .navbar-collapse {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .navbar-nav {
+            margin-left: 0;
+        }
+
+        .nav-item {
+            width: 100%;
+        }
+
+        .nav-link {
+            color: white;
+        }
+
+        .nav-link:hover {
+            color: white;
+        }
+
+
+
+		.file-card {
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			padding: 20px;
+			margin-bottom: 20px;
+			max-width: 230px;
+		}
+
+		.file-card h6 {
+			margin-bottom: 10px;
+		}
+
+		.file-card p {
+			color: #888;
+			margin-bottom: 0;
+		}
+
+	</style>
+
+
+
+     <nav class="navbar navbar-expand-lg navbar-light ">
+        <div class="sidebar navbar-vertical">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="nav nav-pills ">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_files') }}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('app_plan')}}">Upgrade</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 	<div class="container">
-    <div class="row">
-        <div class="col-12 col-lg-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-grid">
-                        <a href="javascript:;" class="btn btn-primary">+ Add File</a>
-                    </div>
-                    <h5 class="my-3">My Drive</h5>
-                    <div class="fm-menu">
-                        <div class="list-group list-group-flush">
-                            <a href="javascript:;" class="list-group-item py-1"><i class="bx bx-folder me-2"></i><span>All Files</span></a>
-                            <a href="javascript:;" class="list-group-item py-1"><i class="bx bx-analyse me-2"></i><span>Recents</span></a>
-                            <a href="javascript:;" class="list-group-item py-1"><i class="bx bx-trash-alt me-2"></i><span>Deleted Files</span></a>
-                            <a href="javascript:;" class="list-group-item py-1"><i class="bx bx-file me-2"></i><span>Documents</span></a>
-                            <a href="javascript:;" class="list-group-item py-1"><i class="bx bx-image me-2"></i><span>Images</span></a>
-                            <a href="javascript:;" class="list-group-item py-1"><i class="bx bx-video me-2"></i><span>Videos</span></a>
-                            <a href="javascript:;" class="list-group-item py-1"><i class="bx bx-music me-2"></i><span>Audio</span></a>
-                            <a href="javascript:;" class="list-group-item py-1"><i class="bx bx-beer me-2"></i><span>Zip Files</span></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="mb-0 text-primary font-weight-bold">45.5 GB <span class="float-end text-secondary">50 GB</span></h5>
-                    <p class="mb-0 mt-2"><span class="text-secondary">Used</span><span class="float-end text-primary">Upgrade</span></p>
-                    <div class="progress mt-3" style="height:7px;">
-                        <div class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-					<div class="mt-3"></div>
-                    <div class="d-flex align-items-center">
-                        <div class="me-2">
-                            <div class="progress-circle progress-lg" data-color="primary" data-percent="75" data-width="6" data-font-size="18" data-progress="circle"></div>
-                        </div>
-                        <div>
-                            <h6 class="mb-0">Photos</h6>
-                            <small class="text-secondary">18 GB</small>
-                        </div>
-                    </div>
-                    <div class="mt-3"></div>
-                    <div class="d-flex align-items-center">
-                        <div class="me-2">
-                            <div class="progress-circle progress-lg" data-color="warning" data-percent="50" data-width="6" data-font-size="18" data-progress="circle"></div>
-                        </div>
-                        <div>
-                            <h6 class="mb-0">Videos</h6>
-                            <small class="text-secondary">10 GB</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-lg-9">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <h5 class="card-title">All Files</h5>
-                        <div>
-                            <div class="dropdown">
-                                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Sort By
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Name</a>
-                                    <a class="dropdown-item" href="#">Date</a>
-                                    <a class="dropdown-item" href="#">Size</a>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary ms-2">Upload</button>
-                        </div>
-                    </div>
-                    <div class="table-responsive mt-3">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">Size</th>
-                                    <th scope="col">Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><i class="bx bx-file me-2"></i>Document.docx</td>
-                                    <td>Word Document</td>
-                                    <td>2.5 MB</td>
-                                    <td>May 15, 2023</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="bx bx-file me-2"></i>Spreadsheet.xlsx</td>
-                                    <td>Excel Spreadsheet</td>
-                                    <td>1.8 MB</td>
-                                    <td>May 14, 2023</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="bx bx-file me-2"></i>Presentation.pptx</td>
-                                    <td>PowerPoint Presentation</td>
-                                    <td>4.3 MB</td>
-                                    <td>May 13, 2023</td>
-                                </tr>
-                                <!-- Add more table rows for other files -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+		<div class="row">
+			<div class="col-12 col-lg-3">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="mb-0 text-primary font-weight-bold">45.5 GB
+							<span class="float-end text-secondary">50 GB</span>
+						</h5>
+						<p class="mb-0 mt-2">
+							<span class="text-secondary">Used</span>
+							<span class="float-end text-primary">Upgrade</span>
+						</p>
+						<div class="progress mt-3" style="height:7px;">
+							<div class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="progress-bar bg-warning" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+						<div class="mt-3"></div>
+						<div class="d-flex align-items-center">
+							<div class="me-2">
+								<div class="progress-circle progress-lg" data-color="primary" data-percent="75" data-width="6" data-font-size="18" data-progress="circle"></div>
+							</div>
+							<div>
+								<h6 class="mb-0">Photos</h6>
+								<small class="text-secondary">18 GB</small>
+							</div>
+						</div>
+						<div class="mt-3"></div>
+						<div class="d-flex align-items-center">
+							<div class="me-2">
+								<div class="progress-circle progress-lg" data-color="warning" data-percent="50" data-width="6" data-font-size="18" data-progress="circle"></div>
+							</div>
+							<div>
+								<h6 class="mb-0">Videos</h6>
+								<small class="text-secondary">10 GB</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-9">
+				<div class="card">
+					<div class="card-body">
+						<div class="d-flex align-items-center justify-content-between">
+							<h5 class="card-title">All Files</h5>
+							<div>
+								<div class="dropdown">
+									<button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Sort By
+									</button>
+								</div>
+								<div class="d-grid">
+									<form action="{{ path('app_files_upload') }}" method="post" enctype="multipart/form-data">
+										<input type="file" name="file" required>
+										<button class="btn btn-primary ms-2" type="submit">Upload</button>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="container">
+							<div class="row">
+								{% for file in files %}
+									<div class="col-12 col-md-6 col-lg-4">
+										<div class="card file-card">
+											<div class="card-body">
+												<h6 class="card-title">{{ file.nom }}</h6>
+												<p class="card-text">Type:
+													{{ file.type }}</p>
+												<p class="card-text">Date:
+													{{ file.date|date('d/m/Y') }}</p>
+												{% if file.type == 'application/pdf' %}
+													<a href="{{ asset('uploads/' ~ file.nom) }}" target="_blank">Aperçu PDF</a>
+												{% else %}
+													<a href="{{ path('app_files_view', {'id': file.id}) }}" class="btn btn-primary">Voir</a>
+												{% endif %}
 
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							</div>
+						</div>
 
-	{% endblock %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>{% endblock %}
