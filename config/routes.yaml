@@ -6,4 +6,3 @@ controllers:
 assets:
         path: /dashboard/view/{id}
         controller: 'App\Controller\FilesController::viewFile'
-
