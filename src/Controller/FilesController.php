@@ -17,14 +17,33 @@ class FilesController extends AbstractController
 
 
     #[Route('/dashboard', name: 'app_files')]
-    public function index(EntityManagerInterface $em): Response
+    public function index(Request $request, EntityManagerInterface $em): Response
     {
 
-        $files = $em->getRepository(File::class)->findBy(['user' => $this->getUser()]);
+        $sort = $request->query->get('sort', 'date');
+        $order = $request->query->get('order', 'DESC');
+
+
+        switch ($sort) {
+            case 'name':
+                $sortField = 'nom';
+                break;
+            case 'recent':
+                $sortField = 'id';
+                break;
+            default:
+                $sortField = 'date';
+                break;
+        }
+
+        $files = $em->getRepository(File::class)->findBy(['user' => $this->getUser()], [$sortField => $order]);
 
         return $this->render('files/files.html.twig', [
             'controller_name' => 'FilesController',
-            'files' => $files
+            'files' => $files,
+            'sort' => $sort,
+            'order' => $order
+
         ]);
     }
 

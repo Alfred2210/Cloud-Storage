@@ -126,10 +126,10 @@
 						<div class="d-flex align-items-center justify-content-between">
 							<h5 class="card-title">All Files</h5>
 							<div>
-								<div class="dropdown">
-									<button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										Sort By
-									</button>
+								<div class="btn-group">
+									<a href="{{ path('app_files', { 'sort': 'date', 'order': 'desc' }) }}" class="btn btn-secondary{% if sort == 'date' %} active{% endif %}">Date</a>
+									<a href="{{ path('app_files', { 'sort': 'name', 'order': 'asc' }) }}" class="btn btn-secondary{% if sort == 'name' %} active{% endif %}">Nom</a>
+									<a href="{{ path('app_files', { 'sort': 'recent', 'order': 'desc' }) }}" class="btn btn-secondary{% if sort == 'recent' %} active{% endif %}">Récents</a>
 								</div>
 								<div class="d-grid">
 									<form action="{{ path('app_files_upload') }}" method="post" enctype="multipart/form-data">
@@ -151,7 +151,7 @@
 												<p class="card-text">Date:
 													{{ file.date|date('d/m/Y') }}</p>
 												{% if file.type == 'application/pdf' %}
-													<a href="{{ asset('uploads/' ~ file.nom) }}" target="_blank">Aperçu PDF</a>
+													<a href="{{ asset('uploads/' ~ file.nom) }}" target="_blank">Apercu PDF</a>
 												{% else %}
 													<a href="{{ path('app_files_view', {'id': file.id}) }}" class="btn btn-primary">Voir</a>
 												{% endif %}
