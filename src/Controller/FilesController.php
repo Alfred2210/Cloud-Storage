@@ -60,7 +60,7 @@ class FilesController extends AbstractController
         $dateTime->setTimezone($newTimezone);
 
         $fileName = $file->getClientOriginalName();
-        
+
         $user = $this->getUser();
 
         $fileEntity = new File();
