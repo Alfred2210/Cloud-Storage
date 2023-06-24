@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Stripe\StripeClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,6 +11,7 @@ use App\Entity\Plan;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\User;
 
 class StripeController extends AbstractController
 {
@@ -30,7 +32,7 @@ class StripeController extends AbstractController
     }
 
     #[Route('create-checkout-session', name: 'app_stripe_checkout')]
-    public function checkout(Request $request): Response
+    public function checkout(Request $request,EntityManagerInterface $entityManager): Response
     {
         $planId = $request->query->get('planId');
         $em = $this->doctrine->getManager();
@@ -45,15 +47,19 @@ class StripeController extends AbstractController
         $dotenv = new Dotenv();
         $dotenv->load(__DIR__.'/../../.env');
 
+        $user = $this->getUser();
+        $customerEmail = $user ? $user->getUserIdentifier() : 'guest@example.com';
+
         $stripe = new StripeClient($_ENV['STRIPE_SECRET_KEY']);
         $session = $stripe->checkout->sessions->create([
-            'customer_email' => $this->getUser()->getUserIdentifier(),
+            'customer_email' => $customerEmail,
             'line_items' => [
                 [
                     'price_data' => [
                         'currency' => 'usd',
                         'product_data' => [
                             'name' => $nom,
+
                         ],
                         'unit_amount' => $prix * 100,
                     ],
@@ -64,17 +70,35 @@ class StripeController extends AbstractController
             'success_url' => 'http://localhost:8000/success',
         ]);
 
+
           return $this->redirect($session->url);
 
     }
 
-
-
     #[Route('/success', name: 'app_stripe_success')]
-    public function success(): Response
+    public function success(Request $request,EntityManagerInterface $entityManager): Response
     {
+        $userData = $request->getSession()->get('pending_registration');
 
-        $user = $this->getUser();
+        if ($userData) {
+            $user = new User();
+            $user->setMail($userData->getMail());
+
+            $user->getId();
+            $user->setPassword($userData->getPassword());
+            $user->setNom($userData->getNom());
+            $user->setPrenom($userData->getPrenom());
+
+            $planId = $userData->getPlan();
+            $plan = $entityManager->getRepository(Plan::class)->find($planId);
+
+            if ($plan)
+                $user->setPlan($plan);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $request->getSession()->remove('pending_registration');
+        }
 
 
         return $this->render('stripe/success.html.twig', [

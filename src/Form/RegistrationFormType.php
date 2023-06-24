@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Plan;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -14,6 +17,13 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationFormType extends AbstractType
 {
+    private EntityManagerInterface $entityManager;
+
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -45,6 +55,14 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
+            ])
+
+            ->add('plan', EntityType::class, [
+                'class' => Plan::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Choose a plan',
+                'data' => $this->entityManager->getRepository(Plan::class)->findOneBy(['nom' => 'Standard']),
+                'disabled' => true,
             ])
         ;
     }

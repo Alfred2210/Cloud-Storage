@@ -28,7 +28,7 @@ plans
                 </div>
                 <div class="card-footer">
                     <p class="text-uppercase fw-bold" style="font-size: 12px;">Inclus</p>
-                        {% if plan.getNom=='Basic' %}
+                        {% if plan.getNom=='Standard' %}
                             <ul>
                                 <li>20 GO Stockage</li>
                                 <li>2 User</li>
@@ -36,7 +36,7 @@ plans
                                 <li>1000 Messages</li>
                                 <li> Secure Online Transfer </li>
                             </ul>
-                        {% elseif plan.getNom=='Standard' %}
+                        {% elseif plan.getNom=='Pro' %}
                             <ul>
                                 <li>50 GO Stockage</li>
                                 <li>5 User</li>
@@ -45,7 +45,7 @@ plans
                                 <li>Secure Online Transfer</li>
                             </ul>
 
-                        {% elseif plan.getNom=='Premium' %}
+                        {% elseif plan.getNom=='Business' %}
                             <ul>
                                 <li>100 GO Stockage</li>
                                 <li>10 User</li>

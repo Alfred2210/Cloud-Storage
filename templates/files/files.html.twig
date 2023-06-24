@@ -146,15 +146,15 @@
 										<div class="card file-card">
 											<div class="card-body">
 												<h6 class="card-title">{{ file.nom }}</h6>
-												<p class="card-text">Type:
-													{{ file.type }}</p>
-												<p class="card-text">Date:
-													{{ file.date|date('d/m/Y') }}</p>
 												{% if file.type == 'application/pdf' %}
 													<a href="{{ asset('uploads/' ~ file.nom) }}" target="_blank">Apercu PDF</a>
+													<p class="card-text">PDF</p>
 												{% else %}
-													<a href="{{ path('app_files_view', {'id': file.id}) }}" class="btn btn-primary">Voir</a>
+													<a href="{{ path('app_files_view', {'id': file.id}) }}" >Voir</a>
+													<p class="card-text">{{ file.type|split('/')[1]|upper }}</p>
+
 												{% endif %}
+													<p class="card-text">Date: {{ file.date|date('d/m/Y') }}</p>
 
 											</div>
 										</div>
@@ -162,7 +162,6 @@
 								{% endfor %}
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>
