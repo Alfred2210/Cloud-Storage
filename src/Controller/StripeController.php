@@ -12,6 +12,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class StripeController extends AbstractController
 {
@@ -32,14 +34,18 @@ class StripeController extends AbstractController
     }
 
     #[Route('create-checkout-session', name: 'app_stripe_checkout')]
-    public function checkout(Request $request,EntityManagerInterface $entityManager): Response
+    public function checkout(Request $request): Response
     {
         $planId = $request->query->get('planId');
         $em = $this->doctrine->getManager();
         $plan = $em->getRepository(Plan::class)->find($planId);
+        $userData = $request->getSession()->get('pending_registration');
+        $customerEmail = $userData ? $userData->getMail() : 'storage@contact.com';
 
         if(!$plan)
+        {
             throw $this->createNotFoundException('Vous n\'avez pas de plan');
+        }
         
         $prix = $plan->getPrix();
         $nom = $plan->getNom();
@@ -48,7 +54,6 @@ class StripeController extends AbstractController
         $dotenv->load(__DIR__.'/../../.env');
 
         $user = $this->getUser();
-        $customerEmail = $user ? $user->getUserIdentifier() : 'guest@example.com';
 
         $stripe = new StripeClient($_ENV['STRIPE_SECRET_KEY']);
         $session = $stripe->checkout->sessions->create([
@@ -56,7 +61,7 @@ class StripeController extends AbstractController
             'line_items' => [
                 [
                     'price_data' => [
-                        'currency' => 'usd',
+                        'currency' => 'eur',
                         'product_data' => [
                             'name' => $nom,
 
@@ -71,20 +76,30 @@ class StripeController extends AbstractController
         ]);
 
 
+
+
+
           return $this->redirect($session->url);
 
     }
 
     #[Route('/success', name: 'app_stripe_success')]
-    public function success(Request $request,EntityManagerInterface $entityManager): Response
+    public function success(Request $request,EntityManagerInterface $entityManager,MailerInterface $mailer): Response
     {
         $userData = $request->getSession()->get('pending_registration');
+
+        $email = (new Email())
+            ->from('storage@contact.com')
+            ->to($userData->getMail())
+            ->subject('Cloud Storage')
+            ->text('Bienvenue sur CLoud Storage')
+            ->html('<p>Bienvenue sur CLoud Storage votre compte à été activé </p>');
+
+        $mailer->send($email);
 
         if ($userData) {
             $user = new User();
             $user->setMail($userData->getMail());
-
-            $user->getId();
             $user->setPassword($userData->getPassword());
             $user->setNom($userData->getNom());
             $user->setPrenom($userData->getPrenom());
@@ -97,9 +112,14 @@ class StripeController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-            $request->getSession()->remove('pending_registration');
-        }
 
+
+
+            $request->getSession()->remove('pending_registration');
+
+
+
+        }
 
         return $this->render('stripe/success.html.twig', [
             'controller_name' => 'StripeController',
