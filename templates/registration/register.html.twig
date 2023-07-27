@@ -13,23 +13,24 @@
     }
 </style>
 
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-md-12">
-				<h2 class=" text-center">Creez votre compte</h2>
+	<div class="container mx-auto">
+		<div class="flex justify-center">
+			<div class="w-full max-w-md">
+				<h2 class="text-center text-3xl font-bold mb-6">Créez votre compte</h2>
 
-				{{ form_start(registrationForm) }}
-				{{ form_row(registrationForm.prenom, { label: 'Prenom' }) }}
-				{{ form_row(registrationForm.nom, { label: 'Nom' }) }}
-				{{ form_row(registrationForm.mail) }}
-				{{ form_row(registrationForm.plainPassword, { label: 'Mot de Passe' }) }}
-				{{ form_row(registrationForm.agreeTerms, { label: 'Accepter' }) }}
-				<button type="submit" class="btn btn-info">S'inscrire</button>
-				<p class="mt-3">Vous avez deja un compte ?
-					<a href="{{ path('app_login') }}">Connectez-vous</a>
+				{{ form_start(registrationForm, {'attr': {'class': 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}}) }}
+				{{ form_row(registrationForm.prenom, { label: 'Prénom', 'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+				{{ form_row(registrationForm.nom, { label: 'Nom', 'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+				{{ form_row(registrationForm.mail, { label: 'Email', 'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+				{{ form_row(registrationForm.plainPassword, { label: 'Mot de passe', 'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+				{{ form_row(registrationForm.agreeTerms, { label: 'Accepter les conditions', 'attr': {'class': 'mt-4'}}) }}
+				<button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4">S'inscrire</button>
+				<p class="mt-3">Vous avez déjà un compte ?
+					<a href="{{ path('app_login') }}" class="text-blue-500 hover:text-blue-800">Connectez-vous</a>
 				</p>
 				{{ form_end(registrationForm) }}
-      </div>
-    </div>
-  </div>
+			</div>
+		</div>
+	</div>
+
 {% endblock %}

@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Upload file
-{% endblock %}
+{% block title %}Upload file{% endblock %}
 
 {% block body %}
 
@@ -127,53 +126,62 @@
 						</div>
 					</div>
 				</div>
+	<div class="w-full bg-blue-900 py-2 px-4">
+		<nav class="flex space-x-4">
+			<a href="{{ path('app_files') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Dashboard</a>
+			<a href="{{ path('app_plan') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Upgrade</a>
+		</nav>
+	</div>
+	<div class="py-10 px-8">
+		<div class="flex flex-col items-center mb-6">
+			<h5 class="text-2xl font-semibold mb-2">All Files</h5>
+			<div class="flex justify-center space-x-2">
+				<a href="{{ path('app_files', { 'sort': 'date', 'order': 'desc' }) }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-700 bg-white border border-blue-300 rounded-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500{% if sort == 'date' %} bg-blue-100{% endif %}">
+					Date
+				</a>
+				<a href="{{ path('app_files', { 'sort': 'name', 'order': 'asc' }) }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-700 bg-white border border-blue-300 rounded-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500{% if sort == 'name' %} bg-blue-100{% endif %}">
+					Nom
+				</a>
+				<a href="{{ path('app_files', { 'sort': 'recent', 'order': 'desc' }) }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-700 bg-white border border-blue-300 rounded-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500{% if sort == 'recent' %} bg-blue-100{% endif %}">
+					Récents
+				</a>
 			</div>
-			<div class="col-12 col-lg-9">
-				<div class="card">
-					<div class="card-body">
-						<div class="d-flex align-items-center justify-content-between">
-							<h5 class="card-title">All Files</h5>
-							<div>
-								<div class="btn-group">
-									<a href="{{ path('app_files', { 'sort': 'date', 'order': 'desc' }) }}" class="btn btn-secondary{% if sort == 'date' %} active{% endif %}">Date</a>
-									<a href="{{ path('app_files', { 'sort': 'name', 'order': 'asc' }) }}" class="btn btn-secondary{% if sort == 'name' %} active{% endif %}">Nom</a>
-									<a href="{{ path('app_files', { 'sort': 'recent', 'order': 'desc' }) }}" class="btn btn-secondary{% if sort == 'recent' %} active{% endif %}">Récents</a>
-								</div>
-								<div class="d-grid">
-									<form action="{{ path('app_files_upload') }}" method="post" enctype="multipart/form-data">
-										<input type="file" name="file" required>
-										<button class="btn btn-primary ms-2" type="submit">Upload</button>
-									</form>
-								</div>
-							</div>
-						</div>
-						<div class="container">
-							<div class="row">
-								{% for file in files %}
-									<div class="col-12 col-md-6 col-lg-4">
-										<div class="card file-card">
-											<div class="card-body">
-												<h6 class="card-title">{{ file.nom }}</h6>
-												<p class="card-text">Type:
-													{{ file.type }}</p>
-												<p class="card-text">Date:
-													{{ file.date|date('d/m/Y') }}</p>
-												{% if file.type == 'application/pdf' %}
-													<a href="{{ asset('uploads/' ~ file.nom) }}" target="_blank">Apercu PDF</a>
-												{% else %}
-													<a href="{{ path('app_files_view', {'id': file.id}) }}" class="btn btn-primary">Voir</a>
-												{% endif %}
 
-											</div>
-										</div>
-									</div>
-								{% endfor %}
-							</div>
-						</div>
-
-					</div>
-				</div>
-			</div>
+		</div>
+		<div class="flex justify-end space-x-2">
+			<form action="{{ path('app_files_upload') }}" method="post" enctype="multipart/form-data" class="flex items-center">
+				<label for="file-upload" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-700 bg-white border border-blue-300 rounded-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer">
+					Select File
+				</label>
+				<input type="file" name="file" id="file-upload" class="hidden" required>
+				<button type="submit" class="inline-flex items-center justify-center px-4 py-2 ml-3 text-sm font-medium text-blue-700 bg-white border border-blue-300 rounded-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+					Upload
+				</button>
+			</form>
 		</div>
 	</div>
-</div>{% endblock %}
+
+
+
+	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+			{% for file in files %}
+				<div class="max-w-sm rounded overflow-hidden shadow-lg">
+
+					<div class="px-6 py-4">
+						<div class="font-bold text-xl mb-2">{{ file.nom }}</div>
+					</div>
+					<div class="px-6 pt-4 pb-2">
+						{% if file.type == 'application/pdf' %}
+							<a href="{{ asset('uploads/' ~ file.nom) }}" target="_blank" class="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-700 mr-2 mb-2">Aperçu PDF</a>
+						{% else %}
+							<a href="{{ path('app_files_view', {'id': file.id}) }}" class="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-700 mr-2 mb-2">Voir</a>
+						{% endif %}
+						<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ file.type|split('/')[1]|upper }}</span>
+						<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ file.date|date('d/m/Y') }}</span>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+	</div>
+{% endblock %}

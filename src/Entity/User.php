@@ -40,6 +40,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: File::class)]
     private Collection $files;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Plan $plan = null;
+
+
     public function __construct()
     {
         $this->files = new ArrayCollection();
@@ -169,8 +174,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
+    public function getPlan(): ?Plan
+    {
+        return $this->plan;
+    }
+
+    public function setPlan(?Plan $plan): self
+    {
+        $this->plan = $plan;
+
+        return $this;
+    }
+
     public function __toString(): string
     {
-        return $this->prenom." ".$this->nom;  
+        return $this->prenom." ".$this->nom;
     }
 }
