@@ -3,6 +3,129 @@
 {% block title %}Upload file{% endblock %}
 
 {% block body %}
+
+
+
+	<style>
+
+            .sidebar {
+            width: 250px;
+            background-color: #33698F;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: width 0.3s ease;
+            font-family: 'Suwannaphum';
+        }
+
+        .navbar-collapse {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .navbar-nav {
+            margin-left: 0;
+        }
+
+        .nav-item {
+            width: 100%;
+        }
+
+        .nav-link {
+            color: white;
+        }
+
+        .nav-link:hover {
+            color: white;
+        }
+
+
+
+		.file-card {
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			padding: 20px;
+			margin-bottom: 20px;
+			max-width: 230px;
+		}
+
+		.file-card h6 {
+			margin-bottom: 10px;
+		}
+
+		.file-card p {
+			color: #888;
+			margin-bottom: 0;
+		}
+
+	</style>
+
+
+
+     <nav class="navbar navbar-expand-lg navbar-light ">
+        <div class="sidebar navbar-vertical">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="nav nav-pills ">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_files') }}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('app_plan')}}">Upgrade</a>
+                    </li>
+					{% if is_granted('ROLE_SUPER_ADMIN') %}
+					<li class="nav-item">
+                        <a class="nav-link" href="/admin">Admin</a>
+                    </li>
+					{% endif %}
+					<li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+	<div class="container">
+		<div class="row">
+			<div class="col-12 col-lg-3">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="mb-0 text-primary font-weight-bold">45.5 GB
+							<span class="float-end text-secondary">50 GB</span>
+						</h5>
+						<p class="mb-0 mt-2">
+							<span class="text-secondary">Used</span>
+							<span class="float-end text-primary">Upgrade</span>
+						</p>
+						<div class="progress mt-3" style="height:7px;">
+							<div class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="progress-bar bg-warning" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+						<div class="mt-3"></div>
+						<div class="d-flex align-items-center">
+							<div class="me-2">
+								<div class="progress-circle progress-lg" data-color="primary" data-percent="75" data-width="6" data-font-size="18" data-progress="circle"></div>
+							</div>
+							<div>
+								<h6 class="mb-0">Photos</h6>
+								<small class="text-secondary">18 GB</small>
+							</div>
+						</div>
+						<div class="mt-3"></div>
+						<div class="d-flex align-items-center">
+							<div class="me-2">
+								<div class="progress-circle progress-lg" data-color="warning" data-percent="50" data-width="6" data-font-size="18" data-progress="circle"></div>
+							</div>
+							<div>
+								<h6 class="mb-0">Videos</h6>
+								<small class="text-secondary">10 GB</small>
+							</div>
+						</div>
+					</div>
+				</div>
 	<div class="w-full bg-blue-900 py-2 px-4">
 		<nav class="flex space-x-4">
 			<a href="{{ path('app_files') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Dashboard</a>

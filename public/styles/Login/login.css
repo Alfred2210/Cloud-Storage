@@ -1,0 +1,62 @@
+body {
+  background-color: #33698f;
+}
+
+form {
+  float: left;
+  width: 50%;
+  height: 700px;
+}
+
+h1.h3.mb-3.font-weight-normal {
+  margin: 150px 0px 50px 0px !important;
+}
+
+#img-login {
+  float: right;
+  background-color: red;
+  width: 50%;
+  height: 700px;
+}
+
+img {
+  height: -webkit-fill-available;
+}
+
+input#inputEmail {
+    width: 50%;
+    margin-bottom: 20px;
+}
+
+input#inputPassword {
+    width: 50%;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+div#info {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    align-content: stretch;
+    align-items: center;
+    justify-content: center;
+}
+
+button{
+    margin-top: 30px;
+    border:1px solid;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: transparent;
+}
+
+*{
+    color: white;
+}
+
+a{
+    color: white;
+}

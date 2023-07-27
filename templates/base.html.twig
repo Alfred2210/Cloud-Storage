@@ -11,4 +11,22 @@
 {% endblock %}
 </body>
 
+        {% block stylesheets %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+
+        {# <style>
+        </style> #}
+        
+        
+    </head>
+    <body>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% block body %}
+        
+        {% endblock %}
+    </body>
 </html>
