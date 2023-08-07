@@ -8,6 +8,10 @@
 			<a href="{{ path('app_files') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Dashboard</a>
 			<a href="{{ path('app_plan') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Upgrade</a>
 			<a href="{{ path('app_statistics') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Statistics</a>
+			{% if is_granted('ROLE_SUPER_ADMIN') %}
+			<a href="{{ path('admin') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Admin</a>
+			{% endif %}
+			<a href="{{ path('app_logout') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Logout</a>
 		</nav>
 	</div>
 	<div class="py-10 px-8">
