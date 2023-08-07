@@ -7,6 +7,7 @@
 		<nav class="flex space-x-4">
 			<a href="{{ path('app_files') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Dashboard</a>
 			<a href="{{ path('app_plan') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Upgrade</a>
+			<a href="{{ path('app_statistics') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Statistics</a>
 		</nav>
 	</div>
 	<div class="py-10 px-8">
@@ -43,7 +44,6 @@
 	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 		{% for file in files %}
 			<div class="max-w-sm rounded overflow-hidden shadow-lg">
-
 				<div class="px-6 py-4">
 					<div class="font-bold text-xl mb-2">{{ file.nom }}</div>
 				</div>
@@ -55,10 +55,15 @@
 					{% endif %}
 					<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ file.type|split('/')[1]|upper }}</span>
 					<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ file.date|date('d/m/Y') }}</span>
+
+					<form action="{{ path('app_files_delete', {'id': file.id}) }}" method="post" class="inline-block">
+						<button type="submit" class="bg-red-200 rounded-full px-3 py-1 text-sm font-semibold text-red-700 mr-2 mb-2">Supprimer</button>
+					</form>
 				</div>
 			</div>
 		{% endfor %}
 	</div>
+
 
 	</div>
 {% endblock %}

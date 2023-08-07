@@ -3,6 +3,13 @@
 {% block title %}Tableau de bord{% endblock %}
 
 {% block body %}
+    <div class="w-full bg-blue-900 py-2 px-4">
+        <nav class="flex space-x-4">
+            <a href="{{ path('app_files') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Dashboard</a>
+            <a href="{{ path('app_plan') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Upgrade</a>
+            <a href="{{ path('app_statistics') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Statistics</a>
+        </nav>
+    </div>
     <div class="container mx-auto px-4 py-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Statistique : Nombre total de fichiers uploadés -->
@@ -16,53 +23,53 @@
                 <h2 class="text-xl font-semibold mb-4">Nombre de fichiers uploadés aujourd'hui</h2>
                 <p class="text-3xl font-bold">{{ filesToday }}</p>
             </div>
-
-            <!-- Statistique : Répartition du nombre de fichiers par client -->
-            <div class="bg-white rounded-lg p-6 shadow-md">
-                <h2 class="text-xl font-semibold mb-4">Répartition par client</h2>
-               {# <div class="grid grid-cols-3 gap-4">
-                    {% for clientId, fileCount in clientsFiles %}
-                        <div class="bg-blue-500 text-white p-4 rounded-lg">
-                            <p class="text-sm">Client {{ clientId }}</p>
-                            <p class="text-2xl font-bold">{{ fileCount }}</p>
-                        </div>
-                    {% endfor %}
-                </div>#}
-            </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
             <!-- Graphique : Répartition des fichiers par type -->
-            <div class="bg-white rounded-lg p-6 shadow-md">
+            <div class="bg-gray-100 rounded-lg p-6 shadow-md">
                 <h2 class="text-xl font-semibold mb-4">Répartition des fichiers par type</h2>
-                <canvas id="fileTypeChart" class="h-64"></canvas>
+                <div id="fileTypeChart" class="h-64"></div>
             </div>
 
             <!-- Graphique : Évolution du nombre de fichiers par mois -->
-            <div class="bg-white rounded-lg p-6 shadow-md">
+            <div class="bg-gray-100 rounded-lg p-6 shadow-md">
                 <h2 class="text-xl font-semibold mb-4">Évolution du nombre de fichiers par mois</h2>
                 <canvas id="monthlyFilesChart" class="h-64"></canvas>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
         // Graphique : Répartition des fichiers par type
-        const fileTypeChart = document.getElementById('fileTypeChart');
-        new Chart(fileTypeChart, {
-            type: 'doughnut',
-            data: {
-                labels: ['PDF', 'Images', 'Documents', 'Autres'],
-                datasets: [{
-                    data: [40, 30, 20, 10],
-                    backgroundColor: ['#3490dc', '#9561e2', '#ffa500', '#e2e8f0']
-                }]
+        const fileTypeChart = document.querySelector('#fileTypeChart');
+
+        const options = {
+            series: [{{ filePdf }}, {{ fileJpg }}, {{ filePng }}, {{ fileDoc }},{{ fileTxt }}],
+            labels: ['PDF', 'Images (JPG)', 'Images (PNG)', 'Documents','Texte'],
+            colors: ["#1C64F2", "#16BDCA", "#FDBA8C", "#E74694","#4a5568"],
+            chart: {
+                type: 'donut',
+                height: 400,
+
             },
-            options: {
-                responsive: true
-            }
-        });
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: '100%',
+                    },
+                    legend: {
+                        position: 'bottom',
+                    },
+                },
+            }],
+        };
+
+
+        const chart = new ApexCharts(fileTypeChart, options);
+        chart.render();
 
         // Graphique : Évolution du nombre de fichiers par mois
         const monthlyFilesChart = document.getElementById('monthlyFilesChart');
@@ -74,17 +81,17 @@
                     label: 'Nombre de fichiers',
                     data: [10, 20, 15, 30, 25, 40],
                     borderColor: '#4a5568',
-                    backgroundColor: 'transparent'
-                }]
+                    backgroundColor: 'transparent',
+                }],
             },
             options: {
                 responsive: true,
                 scales: {
                     y: {
-                        beginAtZero: true
-                    }
-                }
-            }
+                        beginAtZero: true,
+                    },
+                },
+            },
         });
     </script>
 {% endblock %}

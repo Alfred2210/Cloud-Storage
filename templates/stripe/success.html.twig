@@ -3,12 +3,11 @@
 {% block title %}Succès du paiement{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1>Succès du paiement</h1>
-        <p>Votre paiement a été effectué avec succès.</p>
-        <p>Merci de votre achat !</p>
-        <p> Un email de confirmation vous a été envoyé.</p>
-        <p> <a href="{{ path('app_login') }}">Se connecter</a></p>
-
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold mb-4">Succès du paiement</h1>
+        <p class="text-lg mb-2">Votre paiement a été effectué avec succès.</p>
+        <p class="text-lg mb-2">Merci de votre achat !</p>
+        <p class="text-lg mb-2">Un email de confirmation vous a été envoyé.</p>
+        <p class="text-lg mb-2"><a class="text-blue-500 hover:text-blue-700" href="{{ path('app_login') }}">Se connecter</a></p>
     </div>
 {% endblock %}
