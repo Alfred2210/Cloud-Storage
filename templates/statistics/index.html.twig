@@ -3,13 +3,8 @@
 {% block title %}Tableau de bord{% endblock %}
 
 {% block body %}
-    <div class="w-full bg-blue-900 py-2 px-4">
-        <nav class="flex space-x-4">
-            <a href="{{ path('app_files') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Dashboard</a>
-            <a href="{{ path('app_plan') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Upgrade</a>
-            <a href="{{ path('app_statistics') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Statistics</a>
-        </nav>
-    </div>
+    {% include 'navbar.twig' %}
+
     <div class="container mx-auto px-4 py-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Statistique : Nombre total de fichiers uploadés -->
