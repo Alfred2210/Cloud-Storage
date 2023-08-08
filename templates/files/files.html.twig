@@ -34,12 +34,27 @@
 	</div>
 
 
+	<div class="flex justify-center">
+		<form id="search-form" class="mt-4">
+			<div class="flex items-center bg-white rounded-full shadow-md">
+				<input class="rounded-l-full w-full py-2 px-6 text-gray-700 leading-tight focus:outline-none" id="search-query" type="text" placeholder="Search">
+				<div class="p-4">
+					<button class="bg-blue-500 text-white rounded-full p-2 hover:bg-blue-400 focus:outline-none w-12 h-12 flex items-center justify-center" type="submit">
+						🔍
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
 
 	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+
+
 		{% for file in files %}
-			<div class="max-w-sm rounded overflow-hidden shadow-lg">
+			<div class="max-w-sm rounded overflow-hidden shadow-lg file ">
 				<div class="px-6 py-4">
-					<div class="font-bold text-xl mb-2">{{ file.nom }}</div>
+					<div class="font-bold text-xl mb-2 file-name">{{ file.nom }}</div>
 				</div>
 				<div class="px-6 pt-4 pb-2">
 					{% if file.type == 'application/pdf' %}
@@ -58,6 +73,24 @@
 		{% endfor %}
 	</div>
 
+	<script>
+		const searchForm = document.querySelector('#search-form');
+		const searchQuery = document.querySelector('#search-query');
+		const files = document.querySelectorAll('.file');
 
-	</div>
+		searchForm.addEventListener('submit', (event) => {
+			event.preventDefault();
+			const query = searchQuery.value.toLowerCase();
+			files.forEach((file) => {
+				const fileName = file.querySelector('.file-name').textContent.toLowerCase();
+				if (fileName.includes(query)) {
+					file.style.display = 'block';
+				} else {
+					file.style.display = 'none';
+				}
+			});
+		});
+
+
+	</script>
 {% endblock %}

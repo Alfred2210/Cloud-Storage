@@ -14,12 +14,6 @@ use Mpdf\Mpdf;
 
 class FilesController extends AbstractController
 {
-
-
-
-
-
-
     #[Route('/dashboard', name: 'app_files')]
     public function index(Request $request, EntityManagerInterface $em): Response
     {
@@ -142,6 +136,8 @@ class FilesController extends AbstractController
 
         return $response;
     }
+
+
 
     #[Route('/dashboard/delete/{id}', name: 'app_files_delete', methods: ['POST'])]
     public function deleteFile(int $id, EntityManagerInterface $em, Request $request): Response

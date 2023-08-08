@@ -3,35 +3,34 @@
 {% block title %}Upload file{% endblock %}
 
 {% block body %}
-    <div class="w-full bg-blue-900 py-3 px-4 flex justify-between items-center">
-        <div class="flex justify-center items-center space-x-4">
+    <div class="w-full bg-blue-900 py-3 px-4 flex items-center justify-between">
+        <div class="flex items-center space-x-4 mx-auto">
             <a href="{{ path('app_files') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Dashboard</a>
             <a href="{{ path('app_plan') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Upgrade</a>
             <a href="{{ path('app_statistics') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Statistics</a>
+
         </div>
 
-        <div class="relative">
+        <div class="relative group">
             <button id="profile-button" class="block h-10 w-10 rounded-full overflow-hidden focus:outline-none border-2 border-white">
-                <img class="h-full w-full object-cover" src="https://eu.ui-avatars.com/api/?name=John&size=1000" alt="avatar">
+                <img src="https://eu.ui-avatars.com/api/?name=Alice" alt="avatar">
             </button>
-            <div id="dropdown-menu" class="hidden absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-lg">
-                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white">My account</a>
+            <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-300 rounded-lg shadow-lg group-hover:block">
+                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white">My Profile</a>
                 <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white">Settings</a>
                 <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white">Logout</a>
             </div>
         </div>
-
-        <script>
-            document.getElementById("profile-button").addEventListener("click", function() {
-                document.getElementById("dropdown-menu").classList.toggle("hidden");
-            });
-        </script>
     </div>
 
+    <script>
+        const profileButton = document.getElementById("profile-button");
+        const dropdownMenu = document.getElementById("dropdown-menu");
 
-
-
-
-
+        profileButton.addEventListener("click", function() {
+            dropdownMenu.classList.toggle("hidden");
+        });
+    </script>
 
 {% endblock %}
+
