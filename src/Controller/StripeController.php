@@ -44,8 +44,7 @@ class StripeController extends AbstractController
         if($user)
         {
 
-            $user->setPlan($plan);
-            $em->flush();
+
             $customerEmail = $user->getMail();
         }
         else
@@ -89,6 +88,9 @@ class StripeController extends AbstractController
             'success_url' => 'http://localhost:8000/success',
         ]);
 
+        $request->getSession()->set('pending_upgrade_plan', $planId);
+
+
 
 
 
@@ -100,17 +102,30 @@ class StripeController extends AbstractController
     #[Route('/success', name: 'app_stripe_success')]
     public function success(Request $request,EntityManagerInterface $entityManager,MailerInterface $mailer): Response
     {
-        $userData = $request->getSession()->get('pending_registration');
         $user = $this->getUser();
+        $planId = $request->getSession()->get('pending_upgrade_plan');
+        $userData = $request->getSession()->get('pending_registration');
 
-        if ($user) {
+        $em = $this->doctrine->getManager();
+
+
+        if ($user && $planId) {
+
+
+            $plan = $entityManager->getRepository(Plan::class)->find($planId);
+
+            if($plan)
+            {
+                $user->setPlan($plan);
+                $em->flush();
+            }
 
             $emailForUser = (new Email())
                 ->from('storage@contact.com')
                 ->to($user->getMail())
                 ->subject('Cloud Storage')
-                ->text('Bienvenue sur Cloud Storage')
-                ->html('<p>Bienvenue sur Cloud Storage, votre compte a été activé.</p>');
+                ->text('Cloud Storage')
+                ->html('<>Bienvenue sur Cloud Storage, votre stockage a été augmenté.</>');
 
             $mailer->send($emailForUser);
 
