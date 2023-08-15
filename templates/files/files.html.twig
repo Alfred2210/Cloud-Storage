@@ -48,6 +48,7 @@
 	</div>
 
 
+
 	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 
 
@@ -73,12 +74,24 @@
 		{% endfor %}
 	</div>
 
+	<div class="fixed bottom-4 right-4">
+		<div class="bg-gray-200 rounded-lg h-6 w-96">
+			<div class="bg-blue-500 rounded-lg h-6" style="width: {{ (usedSpace / totalStorage) * 100 }}%;"></div>
+		</div>
+		<div class="text-center mt-2 text-gray-600">
+			{{ usedSpaceFormatted }} / {{ totalStorageFormatted }}
+		</div>
+	</div>
+
+
+
+
 	<script>
 		const searchForm = document.querySelector('#search-form');
 		const searchQuery = document.querySelector('#search-query');
 		const files = document.querySelectorAll('.file');
 
-		searchForm.addEventListener('submit', (event) => {
+		searchForm.addEventListener('input', (event) => {
 			event.preventDefault();
 			const query = searchQuery.value.toLowerCase();
 			files.forEach((file) => {

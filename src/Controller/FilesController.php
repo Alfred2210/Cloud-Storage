@@ -52,13 +52,18 @@ class FilesController extends AbstractController
             $usedSpace += $file->getTaille();
         }
 
+        $usedSpaceFormatted = $this->formatFileSize($usedSpace);
+        $totalStorageFormatted = $this->formatFileSize($totalStorage);
+
         return $this->render('files/files.html.twig', [
             'controller_name' => 'FilesController',
             'files' => $files,
             'sort' => $sort,
             'order' => $order,
             'totalStorage' => $totalStorage,
-            'usedSpace' => $usedSpace
+            'usedSpace' => $usedSpace,
+            'totalStorageFormatted' => $totalStorageFormatted,
+            'usedSpaceFormatted' => $usedSpaceFormatted
         ]);
     }
 
@@ -189,6 +194,14 @@ class FilesController extends AbstractController
     ');
 
         return $query->getResult();
+    }
+
+    // Add this function to your FilesController or create a new helper class.
+    private function formatFileSize($sizeInBytes)
+    {
+        $sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $factor = floor((strlen($sizeInBytes) - 1) / 3);
+        return sprintf("%.2f %s", $sizeInBytes / (1024 ** $factor), $sizes[$factor]);
     }
 
 
