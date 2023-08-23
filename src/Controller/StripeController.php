@@ -68,6 +68,9 @@ class StripeController extends AbstractController
 
         $user = $this->getUser();
 
+
+
+
         $stripe = new StripeClient($_ENV['STRIPE_SECRET_KEY']);
         $session = $stripe->checkout->sessions->create([
             'customer_email' => $customerEmail,
@@ -86,6 +89,12 @@ class StripeController extends AbstractController
             ],
             'mode' => 'payment',
             'success_url' => 'http://localhost:8000/success',
+            'shipping_address_collection' => [
+                'allowed_countries' => ['FR']
+            ],
+            'phone_number_collection' => [
+                'enabled' => true
+            ],
         ]);
 
         $request->getSession()->set('pending_upgrade_plan', $planId);
