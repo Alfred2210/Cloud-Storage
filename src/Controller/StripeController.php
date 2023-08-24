@@ -18,12 +18,12 @@ use Symfony\Component\Mime\Email;
 class StripeController extends AbstractController
 {
 
-        private ManagerRegistry $doctrine;
+    private ManagerRegistry $doctrine;
 
-        public function __construct(ManagerRegistry $doctrine)
-        {
-            $this->doctrine = $doctrine;
-        }
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->doctrine = $doctrine;
+    }
 
     #[Route('/stripe', name: 'app_stripe')]
     public function index(): Response
@@ -42,16 +42,15 @@ class StripeController extends AbstractController
         $userData = $request->getSession()->get('pending_registration');
         $customerEmail = $userData ? $userData->getMail() : 'storage@contact.com';
 
-        if(!$plan)
-        {
+        if (!$plan) {
             throw $this->createNotFoundException('Vous n\'avez pas de plan');
         }
-        
+
         $prix = $plan->getPrix();
         $nom = $plan->getNom();
 
         $dotenv = new Dotenv();
-        $dotenv->load(__DIR__.'/../../.env');
+        $dotenv->load(__DIR__ . '/../../.env');
 
         $user = $this->getUser();
 
@@ -79,12 +78,11 @@ class StripeController extends AbstractController
 
 
 
-          return $this->redirect($session->url);
-
+        return $this->redirect($session->url);
     }
 
     #[Route('/success', name: 'app_stripe_success')]
-    public function success(Request $request,EntityManagerInterface $entityManager,MailerInterface $mailer): Response
+    public function success(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         $userData = $request->getSession()->get('pending_registration');
 
@@ -116,15 +114,10 @@ class StripeController extends AbstractController
 
 
             $request->getSession()->remove('pending_registration');
-
-
-
         }
 
         return $this->render('stripe/success.html.twig', [
             'controller_name' => 'StripeController',
         ]);
     }
-
-
 }
