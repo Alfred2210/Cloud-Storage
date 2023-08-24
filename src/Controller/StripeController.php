@@ -36,11 +36,24 @@ class StripeController extends AbstractController
     #[Route('create-checkout-session', name: 'app_stripe_checkout')]
     public function checkout(Request $request): Response
     {
+        $user = $this->getUser();
         $planId = $request->query->get('planId');
         $em = $this->doctrine->getManager();
         $plan = $em->getRepository(Plan::class)->find($planId);
-        $userData = $request->getSession()->get('pending_registration');
-        $customerEmail = $userData ? $userData->getMail() : 'storage@contact.com';
+
+        if($user)
+        {
+
+
+            $customerEmail = $user->getMail();
+        }
+        else
+        {
+            $userData = $request->getSession()->get('pending_registration');
+            $customerEmail = $userData ? $userData->getMail() : 'storage@contact.com';
+        }
+
+
 
         if (!$plan) {
             throw $this->createNotFoundException('Vous n\'avez pas de plan');
@@ -53,6 +66,9 @@ class StripeController extends AbstractController
         $dotenv->load(__DIR__ . '/../../.env');
 
         $user = $this->getUser();
+
+
+
 
         $stripe = new StripeClient($_ENV['STRIPE_SECRET_KEY']);
         $session = $stripe->checkout->sessions->create([
@@ -72,7 +88,16 @@ class StripeController extends AbstractController
             ],
             'mode' => 'payment',
             'success_url' => 'http://localhost:8000/success',
+            'shipping_address_collection' => [
+                'allowed_countries' => ['FR']
+            ],
+            'phone_number_collection' => [
+                'enabled' => true
+            ],
         ]);
+
+        $request->getSession()->set('pending_upgrade_plan', $planId);
+
 
 
 
@@ -84,16 +109,35 @@ class StripeController extends AbstractController
     #[Route('/success', name: 'app_stripe_success')]
     public function success(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
+        $user = $this->getUser();
+        $planId = $request->getSession()->get('pending_upgrade_plan');
         $userData = $request->getSession()->get('pending_registration');
 
-        $email = (new Email())
-            ->from('storage@contact.com')
-            ->to($userData->getMail())
-            ->subject('Cloud Storage')
-            ->text('Bienvenue sur CLoud Storage')
-            ->html('<p>Bienvenue sur CLoud Storage votre compte à été activé </p>');
+        $em = $this->doctrine->getManager();
 
-        $mailer->send($email);
+
+        if ($user && $planId) {
+
+
+            $plan = $entityManager->getRepository(Plan::class)->find($planId);
+
+            if($plan)
+            {
+                $user->setPlan($plan);
+                $em->flush();
+            }
+
+            $emailForUser = (new Email())
+                ->from('storage@contact.com')
+                ->to($user->getMail())
+                ->subject('Cloud Storage')
+                ->text('Cloud Storage')
+                ->html('<>Bienvenue sur Cloud Storage, votre stockage a été augmenté.</>');
+
+            $mailer->send($emailForUser);
+
+
+        }
 
         if ($userData) {
             $user = new User();
@@ -105,14 +149,22 @@ class StripeController extends AbstractController
             $planId = $userData->getPlan();
             $plan = $entityManager->getRepository(Plan::class)->find($planId);
 
-            if ($plan)
-                $user->setPlan($plan);
+            $emailForUserData = (new Email())
+                ->from('storage@contact.com')
+                ->to($userData->getMail())
+                ->subject('Cloud Storage')
+                ->text('Bienvenue sur Cloud Storage')
+                ->html('<p>Bienvenue sur Cloud Storage, votre compte a été activé.</p>');
 
+            $mailer->send($emailForUserData);
+
+            if ($plan)
+            {
+                $user->setPlan($plan);
+                $entityManager->flush();
+            }
             $entityManager->persist($user);
             $entityManager->flush();
-
-
-
             $request->getSession()->remove('pending_registration');
         }
 

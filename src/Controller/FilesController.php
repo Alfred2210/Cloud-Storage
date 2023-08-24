@@ -14,12 +14,6 @@ use Mpdf\Mpdf;
 
 class FilesController extends AbstractController
 {
-
-
-
-
-
-
     #[Route('/dashboard', name: 'app_files')]
     public function index(Request $request, EntityManagerInterface $em): Response
     {
@@ -58,13 +52,18 @@ class FilesController extends AbstractController
             $usedSpace += $file->getTaille();
         }
 
+        $usedSpaceFormatted = $this->formatFileSize($usedSpace);
+        $totalStorageFormatted = $this->formatFileSize($totalStorage);
+
         return $this->render('files/files.html.twig', [
             'controller_name' => 'FilesController',
             'files' => $files,
             'sort' => $sort,
             'order' => $order,
             'totalStorage' => $totalStorage,
-            'usedSpace' => $usedSpace
+            'usedSpace' => $usedSpace,
+            'totalStorageFormatted' => $totalStorageFormatted,
+            'usedSpaceFormatted' => $usedSpaceFormatted
         ]);
     }
 
@@ -143,6 +142,8 @@ class FilesController extends AbstractController
         return $response;
     }
 
+
+
     #[Route('/dashboard/delete/{id}', name: 'app_files_delete', methods: ['POST'])]
     public function deleteFile(int $id, EntityManagerInterface $em, Request $request): Response
     {
@@ -193,6 +194,14 @@ class FilesController extends AbstractController
     ');
 
         return $query->getResult();
+    }
+
+    // Add this function to your FilesController or create a new helper class.
+    private function formatFileSize($sizeInBytes)
+    {
+        $sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $factor = floor((strlen($sizeInBytes) - 1) / 3);
+        return sprintf("%.2f %s", $sizeInBytes / (1024 ** $factor), $sizes[$factor]);
     }
 
 

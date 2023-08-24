@@ -1,15 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-
-{% endblock %}
-
 {% block page_class %}
     plans
 {% endblock %}
 
 {% block body %}
-
     {% include 'navbar.twig' %}
 
     <section class="text-center">
@@ -19,44 +14,28 @@
     <div class="flex justify-center">
         {% for plan in plans %}
             <div class="w-64 mx-3">
-                <div class="bg-white shadow-lg rounded-lg p-6">
-                    <h5 class="text-xl font-bold mb-4">{{ plan.getNom }}</h5>
-                    <p class="text-4xl font-bold mb-4">€{{ plan.getPrix }}<span class="text-sm text-gray-500">/EUR</span></p>
-                    <form action="{{ path('app_stripe_checkout', { 'planId': plan.id }) }}" method="POST">
-                        <input type="hidden" name="planId" value="{{ plan.id }}">
-                        <button class="w-full py-2 text-white bg-green-500 rounded-full hover:bg-green-600" type="submit">Buy {{ plan.getNom() }}</button>
-                    </form>
+                <div class="bg-white shadow-lg rounded-lg p-6 {% if user and user.getPlan() == plan %}bg-gray-300{% endif %}">
+                    <h5 class="text-xl font-bold mb-4">{{ plan.getNom() }}</h5>
+                    <p class="text-4xl font-bold mb-4">€{{ plan.getPrix() }}<span class="text-sm text-gray-500">/EUR</span></p>
+                    {% if user and user.getPlan() != plan %}
+                        <form action="{{ path('app_stripe_checkout', { 'planId': plan.id }) }}" method="POST">
+                            <input type="hidden" name="storage" value="{{ plan.getCapacite() }}">
+                            <button class="w-full py-2 text-white bg-green-500 rounded-full hover:bg-green-600" type="submit">Upgrade to {{ plan.getNom() }}</button>
+                        </form>
+                    {% else %}
+                        <p>You are already subscribed to this plan.</p>
+                    {% endif %}
                     <div class="mt-6">
                         <p class="text-sm font-bold uppercase mb-2">Inclus</p>
-                        {% if plan.getNom == 'Standard' %}
-                            <ul class="text-sm">
-                                <li>20 GO Stockage</li>
-                                <li>2 User</li>
-                                <li>1 Project</li>
-                                <li>1000 Messages</li>
-                                <li>Secure Online Transfer</li>
-                            </ul>
-                        {% elseif plan.getNom == 'Pro' %}
-                            <ul class="text-sm">
-                                <li>50 GO Stockage</li>
-                                <li>5 User</li>
-                                <li>10 Project</li>
-                                <li>5000 Messages</li>
-                                <li>Secure Online Transfer</li>
-                            </ul>
-                        {% elseif plan.getNom == 'Business' %}
-                            <ul class="text-sm">
-                                <li>100 GO Stockage</li>
-                                <li>10 User</li>
-                                <li>20 Project</li>
-                                <li>Support 24/7</li>
-                                <li>Secure Online Transfer</li>
-                                <li>Secure Account</li>
-                            </ul>
-                        {% endif %}
+                        <ul class="text-sm">
+                            {% for item in planDetails[plan.getNom()] %}
+                                <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
+
 {% endblock %}
