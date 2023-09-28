@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    {% include 'navbar.twig' %}
+    <div class="bg-white min-h-screen flex items-center justify-center py-24 sm:py-32">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-2xl lg:mx-0">
+                <h3 class="text-base font-semibold leading-7 text-gray-900">Informations générales</h3>
+                <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Certaines de ces informations peuvent être vues par les autres utilisateurs</p>
+            </div>
+            <div class="mt-6">
+                <dl class="divide-y">
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 mt-6 border-t border-gray-100 bg-white shadow-sm rounded-lg p-6">
+                        <dt class="text-sm font-medium leading-6 text-gray-900">Prenom : {{ firstName }}</dt>
+                    </div>
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 mt-6 border-t border-gray-100 bg-white shadow-sm rounded-lg p-6">
+                        <dt class="text-sm font-medium leading-6 text-gray-900">Nom: {{ lastName }}</dt>
+                    </div>
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 mt-6 border-t border-gray-100 bg-white shadow-sm rounded-lg p-6">
+                        <dt class="text-sm font-medium leading-6 text-gray-900">Email : {{ mail }}</dt>
+                    </div>
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 mt-6 border-t border-gray-100 bg-white shadow-sm rounded-lg p-6">
+                        <dt class="text-sm font-medium leading-6 text-gray-900">Abonnement : {{ plan.capacite }} GB</dt>
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
