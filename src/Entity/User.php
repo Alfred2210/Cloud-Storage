@@ -44,10 +44,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private ?Plan $plan = null;
 
+    #[ORM\OneToMany(mappedBy: 'User', targetEntity: Facture::class)]
+    private Collection $factures;
+
 
     public function __construct()
     {
         $this->files = new ArrayCollection();
+        $this->factures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -190,5 +194,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString(): string
     {
         return $this->prenom." ".$this->nom;
+    }
+
+    /**
+     * @return Collection<int, Facture>
+     */
+    public function getFactures(): Collection
+    {
+        return $this->factures;
+    }
+
+    public function addFacture(Facture $facture): self
+    {
+        if (!$this->factures->contains($facture)) {
+            $this->factures->add($facture);
+            $facture->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFacture(Facture $facture): self
+    {
+        if ($this->factures->removeElement($facture)) {
+            // set the owning side to null (unless already changed)
+            if ($facture->getUser() === $this) {
+                $facture->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -18,6 +18,7 @@ class ProfileController extends AbstractController
         $lastName = $user->getNom();
         $mail = $user->getMail();
         $plan = $user->getPlan();
+        $factures = $user->getFactures();
 
         return $this->render('profile/index.html.twig', [
             'controller_name' => 'ProfileController',
@@ -25,6 +26,7 @@ class ProfileController extends AbstractController
             'lastName' => $lastName,
             'mail' => $mail,
             'plan' => $plan,
+            'factures' => $factures,
         ]);
     }
 }

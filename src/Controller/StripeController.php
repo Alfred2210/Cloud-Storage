@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Facture;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\StripeClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -149,6 +150,11 @@ class StripeController extends AbstractController
             $planId = $userData->getPlan();
             $plan = $entityManager->getRepository(Plan::class)->find($planId);
 
+            $facture = new Facture();
+            $facture->setUser($user);
+            $facture->setPrice($plan->getPrix());
+            $facture->setDate(new \DateTime());
+
             $emailForUserData = (new Email())
                 ->from('storage@contact.com')
                 ->to($userData->getMail())
@@ -164,6 +170,7 @@ class StripeController extends AbstractController
                 $entityManager->flush();
             }
             $entityManager->persist($user);
+            $entityManager->persist($facture);
             $entityManager->flush();
             $request->getSession()->remove('pending_registration');
         }
