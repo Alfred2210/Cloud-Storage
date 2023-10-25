@@ -1,73 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facture</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        /* Ajoutez ici vos styles personnalisés si nécessaire */
-    </style>
-</head>
-<body class="bg-gray-100 font-sans">
-<div class="container mx-auto p-8">
-    <div class="bg-white rounded-lg shadow-md p-8">
-        <h1 class="text-3xl font-bold mb-6">Facture</h1>
-        <div class="flex justify-between mb-6">
-            <div>
+{% block title %}{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto p-8">
+        <div class="bg-white rounded-lg shadow-md p-8">
+            <h1 class="text-2xl font-semibold mb-4">Facture</h1>
+
+            <div class="mb-6">
+                <p>Date : {{ date }}</p>
                 <p><strong>De :</strong></p>
-                <p>Votre nom / entreprise</p>
-                <p>Votre adresse</p>
-                <p>Votre ville, code postal</p>
-                <p>Votre numéro de téléphone</p>
+                <p>Cloud Storage</p>
+                <p>3 Rue de la Liberté</p>
+                <p>Paris, 75000</p>
+                <p>01 23 45 67 89</p>
             </div>
-            <div>
+
+            <div class="mb-6">
                 <p><strong>À :</strong></p>
-                <p>{{ firstName }} </p>
-                <p>Adresse du client</p>
-                <p>Ville du client, code postal</p>
-                <p>Numéro de téléphone du client</p>
+                <p>{{ name }}</p>
+                <p>{{ shippingAddress }}</p>
+                <p>{{ city }}, {{ zipCode }}</p>
+                <p>{{ phoneNumber }}</p>
             </div>
-        </div>
-        <table class="w-full mb-6">
-            <thead>
-            <tr>
-                <th class="py-2">Description</th>
-                <th class="py-2">Quantité</th>
-                <th class="py-2">Prix unitaire</th>
-                <th class="py-2">Total</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Exemple de ligne de produit -->
-            <tr>
-                <td class="border border-gray-300 py-2">Nom du produit</td>
-                <td class="border border-gray-300 py-2">1</td>
-                <td class="border border-gray-300 py-2">$99.99</td>
-                <td class="border border-gray-300 py-2">$99.99</td>
-            </tr>
-            <!-- Ajoutez d'autres lignes de produit si nécessaire -->
-            </tbody>
-        </table>
-        <div class="flex justify-end">
-            <div class="w-1/3">
-                <table class="w-full">
-                    <tr>
-                        <td class="py-1">Sous-total:</td>
-                        <td class="py-1 text-right">$99.99</td>
-                    </tr>
-                    <tr>
-                        <td class="py-1">Taxe (TVA 20%):</td>
-                        <td class="py-1 text-right">$19.99</td>
-                    </tr>
-                    <tr>
-                        <td class="py-1 font-semibold">Total:</td>
-                        <td class="py-1 text-right font-semibold">$119.98</td>
-                    </tr>
-                </table>
+
+            <table class="w-full mb-6">
+                <thead>
+                <tr>
+                    <th class="py-2">Produit : </th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Exemple de ligne de produit -->
+
+                <!-- Ajoutez d'autres lignes de produit si nécessaire -->
+                </tbody>
+            </table>
+
+            <div class="flex justify-end">
+                <div class="w-1/3">
+                    <table class="w-full">
+                        <tr>
+                            <td class="border-b py-2">Stockage : </td>
+                            <td class="border-b py-2">{{ price }}€</td>
+                        </tr>
+                        <tr>
+                            <td class="border-b py-2">Quantité : </td>
+                            <td class="border-b py-2">1</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2">Prix:</td>
+                            <td class="py-2 text-right">{{ price }}€</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2">Taxe (TVA 20%):</td>
+                            <td class="py-2 text-right">{{ tva }}€</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 font-semibold">Total:</td>
+                            <td class="py-2 text-right font-semibold">{{ ttc }}€</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
-</body>
-</html>
+{% endblock %}

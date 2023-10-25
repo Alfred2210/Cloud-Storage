@@ -27,7 +27,7 @@ class FilesController extends AbstractController
             case 'recent':
                 $sortField = 'id';
                 break;
-            case 'size': // Add a case for sorting by file size
+            case 'size':
                 $sortField = 'taille';
                 break;
             default:
@@ -196,7 +196,7 @@ class FilesController extends AbstractController
         return $query->getResult();
     }
 
-    // Add this function to your FilesController or create a new helper class.
+
     private function formatFileSize($sizeInBytes)
     {
         $sizes = ['B', 'KB', 'MB', 'GB', 'TB'];

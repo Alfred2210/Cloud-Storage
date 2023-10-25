@@ -34,6 +34,9 @@ class StripeController extends AbstractController
         ]);
     }
 
+
+
+
     #[Route('create-checkout-session', name: 'app_stripe_checkout')]
     public function checkout(Request $request): Response
     {
@@ -42,10 +45,13 @@ class StripeController extends AbstractController
         $em = $this->doctrine->getManager();
         $plan = $em->getRepository(Plan::class)->find($planId);
 
+
+
+
+
+
         if($user)
         {
-
-
             $customerEmail = $user->getMail();
         }
         else
@@ -66,7 +72,6 @@ class StripeController extends AbstractController
         $dotenv = new Dotenv();
         $dotenv->load(__DIR__ . '/../../.env');
 
-        $user = $this->getUser();
 
 
 
@@ -88,7 +93,8 @@ class StripeController extends AbstractController
                 ],
             ],
             'mode' => 'payment',
-            'success_url' => 'http://localhost:8000/success',
+            'invoice_creation' => ['enabled' => true],
+            'success_url' => 'http://localhost:8000/success?session_id={CHECKOUT_SESSION_ID}',
             'shipping_address_collection' => [
                 'allowed_countries' => ['FR']
             ],
@@ -97,7 +103,11 @@ class StripeController extends AbstractController
             ],
         ]);
 
+
+
         $request->getSession()->set('pending_upgrade_plan', $planId);
+
+
 
 
 
@@ -106,6 +116,35 @@ class StripeController extends AbstractController
 
         return $this->redirect($session->url);
     }
+    private function handleStripeSession($sessionId, $request) {
+        $stripe = new StripeClient($_ENV['STRIPE_SECRET_KEY']);
+        $session = $stripe->checkout->sessions->retrieve($sessionId);
+        $customerDetails = $session->customer_details;
+        $address = $customerDetails->address;
+
+        $data = [
+            'phone_number' => $customerDetails->phone,
+            'city' => $address->city,
+            'zip_code' => $address->postal_code,
+            'shipping_address' => $address->line1,
+            'name' => $customerDetails->name,
+            'price' => $session->amount_total / 100,
+
+        ];
+
+        // Calculate 'tva' and 'ttc' after 'price' is set
+        $data['tva'] = $data['price'] * 0.2;
+        $data['ttc'] = $data['price'] + $data['tva'];
+
+        foreach ($data as $key => $value) {
+            $request->getSession()->set($key, $value);
+        }
+
+        return $data;
+    }
+
+
+
 
     #[Route('/success', name: 'app_stripe_success')]
     public function success(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
@@ -113,6 +152,10 @@ class StripeController extends AbstractController
         $user = $this->getUser();
         $planId = $request->getSession()->get('pending_upgrade_plan');
         $userData = $request->getSession()->get('pending_registration');
+        $sessionId = $request->query->get('session_id');
+        $this->handleStripeSession($sessionId, $request);
+
+
 
         $em = $this->doctrine->getManager();
 
@@ -150,10 +193,14 @@ class StripeController extends AbstractController
             $planId = $userData->getPlan();
             $plan = $entityManager->getRepository(Plan::class)->find($planId);
 
+
+
             $facture = new Facture();
             $facture->setUser($user);
             $facture->setPrice($plan->getPrix());
             $facture->setDate(new \DateTime());
+
+
 
             $emailForUserData = (new Email())
                 ->from('storage@contact.com')
@@ -167,12 +214,20 @@ class StripeController extends AbstractController
             if ($plan)
             {
                 $user->setPlan($plan);
+
+                $facture = new Facture();
+                $facture->setUser($user);
+                $facture->setPrice($plan->getPrix());
+                $facture->setDate(new \DateTime());
+
                 $entityManager->flush();
             }
             $entityManager->persist($user);
             $entityManager->persist($facture);
             $entityManager->flush();
             $request->getSession()->remove('pending_registration');
+
+
         }
 
         return $this->render('stripe/success.html.twig', [
