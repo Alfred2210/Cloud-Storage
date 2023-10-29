@@ -25,12 +25,12 @@ class RegistrationController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
+
                 )
 
 
@@ -38,6 +38,7 @@ class RegistrationController extends AbstractController
 
             $plan= $entityManager->getRepository(Plan::class)->findOneBy(['nom' => 'Standard']);
             $user->setPlan($plan);
+
             $request->getSession()->set('pending_registration', $user);
             $route = $router->generate('app_stripe_checkout', ['planId' => $plan->getId()]);
 

@@ -27,12 +27,15 @@
                 <div id="fileTypeChart" class="h-64"></div>
             </div>
 
-            <!-- Graphique : Évolution du nombre de fichiers par mois -->
-            <div class="bg-gray-100 rounded-lg p-6 shadow-md">
-                <h2 class="text-xl font-semibold mb-4">Évolution du nombre de fichiers par mois</h2>
-                <canvas id="monthlyFilesChart" class="h-64"></canvas>
-            </div>
         </div>
+
+        <!-- Statistique : Nombre de fichiers téléchargés par l'utilisateur -->
+        <div class="bg-white rounded-lg p-6 shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Nombre de fichiers téléchargés par moi</h2>
+            <p class="text-3xl font-bold">{{ userFiles }}</p>
+        </div>
+
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>

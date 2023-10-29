@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\File;
+use Symfony\Component\Security\Core\Security;
 use DateTime;
 
 class StatisticsController extends AbstractController
@@ -21,7 +22,7 @@ class StatisticsController extends AbstractController
     }
 
     #[Route('/statistics', name: 'app_statistics')]
-    public function index(): Response
+    public function index(Security $security): Response
     {
         $entityManager = $this->doctrine->getManager();
 
@@ -37,6 +38,24 @@ class StatisticsController extends AbstractController
             ->setParameter('today', $today)
             ->getQuery()
             ->getSingleScalarResult();
+
+
+        $user = $security->getUser(); // Obtenez l'utilisateur actuellement connecté
+
+        // Dans votre contrôleur
+        if ($user) {
+            $entityManager = $this->doctrine->getManager();
+
+            $userFiles = $entityManager->getRepository(File::class)
+                ->createQueryBuilder('f')
+                ->select('COUNT(f)')
+                ->where('f.user = :user') // Utilisez la relation user ici
+                ->setParameter('user', $user)
+                ->getQuery()
+                ->getSingleScalarResult();
+        } else {
+            $userFiles = 0; // Aucun utilisateur n'est connecté, donc le nombre est 0
+        }
 
 
 
@@ -63,7 +82,8 @@ class StatisticsController extends AbstractController
             'fileJpg' => $fileJpg,
             'filePng' => $filePng,
             'fileDoc' => $fileDoc,
-            'fileTxt' => $fileTxt
+            'fileTxt' => $fileTxt,
+            'userFiles' => $userFiles,
 
             //'clientsFiles' => $clientsFiles,
         ]);

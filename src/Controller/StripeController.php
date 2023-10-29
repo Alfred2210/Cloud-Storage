@@ -189,6 +189,7 @@ class StripeController extends AbstractController
             $user->setPassword($userData->getPassword());
             $user->setNom($userData->getNom());
             $user->setPrenom($userData->getPrenom());
+            $user->setRoles(['ROLE_USER']);
 
             $planId = $userData->getPlan();
             $plan = $entityManager->getRepository(Plan::class)->find($planId);

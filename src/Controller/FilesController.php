@@ -54,6 +54,7 @@ class FilesController extends AbstractController
 
         $usedSpaceFormatted = $this->formatFileSize($usedSpace);
         $totalStorageFormatted = $this->formatFileSize($totalStorage);
+        $userFiles = $this->countFilesByClient($em);
 
         return $this->render('files/files.html.twig', [
             'controller_name' => 'FilesController',
@@ -63,7 +64,9 @@ class FilesController extends AbstractController
             'totalStorage' => $totalStorage,
             'usedSpace' => $usedSpace,
             'totalStorageFormatted' => $totalStorageFormatted,
-            'usedSpaceFormatted' => $usedSpaceFormatted
+            'usedSpaceFormatted' => $usedSpaceFormatted,
+            'userFiles' => $userFiles,
+
         ]);
     }
 
@@ -182,19 +185,22 @@ class FilesController extends AbstractController
         return $this->redirectToRoute('app_files');
     }
 
-    public function countFilesByClient()
+    public function countFilesByClient(EntityManagerInterface $entityManager)
     {
-        $entityManager = $this->getEntityManager();
-
         $query = $entityManager->createQuery('
-        SELECT COUNT(f.id) AS filesCount, u.username AS clientUsername
+        SELECT COUNT(f.id) AS filesCount, CONCAT(u.prenom, \' \', u.nom) AS clientUsername
         FROM App\Entity\File f
         JOIN f.user u
-        GROUP BY u.username
+        WHERE u = :user
+        GROUP BY clientUsername
     ');
+        $query->setParameter('user', $this->getUser());
 
         return $query->getResult();
     }
+
+
+
 
 
     private function formatFileSize($sizeInBytes)
