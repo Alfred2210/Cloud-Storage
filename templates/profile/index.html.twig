@@ -34,15 +34,16 @@
                         </div>
                     {% endfor %}
 
-                    <form method="post" action="{{ path('app_user_delete', {'id': app.user.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.');">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ app.user.id) }}">
-                        <button class="btn btn-danger">Supprimer mon compte</button>
-                    </form>
-
-                    <form method="post" action="{{ path('app_user_deletes', {'id': app.user.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.');">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ app.user.id) }}">
-                        <button class="btn btn-danger">Supprimer mon compte</button>
-                    </form>
+                    <div class="bg-white min-h-screen flex items-center justify-center py-24 sm:py-32">
+                        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                            <div class="mt-6">
+                                <form method="post" action="{{ path('app_profile_delete') }}" onsubmit="return confirm('Voulez-vous vraiment supprimer votre compte ?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete_user') }}">
+                                    <button type="submit" style="background-color: red; color: white; border: none; padding: 10px 20px; cursor: pointer;">Supprimer mon compte</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
                 </dl>
             </div>

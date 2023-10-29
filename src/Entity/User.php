@@ -37,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: File::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: File::class,cascade: ['remove'], orphanRemoval: true)]
     private Collection $files;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
