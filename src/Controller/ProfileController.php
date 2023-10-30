@@ -64,27 +64,17 @@ class ProfileController extends AbstractController
             $token = $request->request->get('_token');
 
             if ($csrfTokenManager->isTokenValid(new CsrfToken('delete_user', $token))) {
-                // Supprimer l'utilisateur de la base de données
+
                 $entityManager->remove($user);
                 $entityManager->flush();
-
-                // Déconnecter l'utilisateur
-                // Use the injected service
                 $this->tokenStorage->setToken(null);
-                // Invalidate the session
-                // Use the injected service
-                // This line is not needed as the token storage will take care of it.
-                //$this->get('session')->invalidate();
 
-                // Rediriger vers la page d'accueil ou une autre page appropriée
-                return $this->redirectToRoute('app_login'); // Remplacez 'app_home' par la route de votre choix.
+                return $this->redirectToRoute('app_login');
             } else {
-                // Gérer l'erreur CSRF (éventuellement rediriger vers une page d'erreur)
-                return $this->redirectToRoute('app_profile'); // Rediriger vers la page de profil en cas d'erreur CSRF
+
+                return $this->redirectToRoute('app_profile');
             }
         }
-
-        // Afficher la page de profil (ou une page de confirmation de suppression)
         return $this->render('profile/delete.html.twig', [
             'user' => $user,
         ]);

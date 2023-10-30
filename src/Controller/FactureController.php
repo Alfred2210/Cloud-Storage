@@ -22,15 +22,19 @@ class FactureController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
-    #[Route('/facture', name: 'app_facture')]
-    public function index(): Response
+    #[Route('/factures', name: 'app_factures')]
+    public function index(Request $request): Response
     {
         $user = $this->getUser();
-        return $this->render('facture/index.html.twig', [
-            'controller_name' => 'FactureController',
 
+        $factures = $this->entityManager->getRepository(Facture::class)->findBy(['user' => $user]);
+
+        return $this->render('facture/index.html.twig', [
+            'factures' => $factures,
+            'controller_name' => 'FactureController',
         ]);
     }
+
     #[Route('/facture/{invoiceId}', name: 'app_facture_show')]
     public function showInvoice($invoiceId,Request $request): Response
     {

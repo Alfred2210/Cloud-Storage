@@ -143,9 +143,6 @@ class StripeController extends AbstractController
         return $data;
     }
 
-
-
-
     #[Route('/success', name: 'app_stripe_success')]
     public function success(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
@@ -155,20 +152,22 @@ class StripeController extends AbstractController
         $sessionId = $request->query->get('session_id');
         $this->handleStripeSession($sessionId, $request);
 
-
-
         $em = $this->doctrine->getManager();
 
-
         if ($user && $planId) {
-
-
             $plan = $entityManager->getRepository(Plan::class)->find($planId);
 
-            if($plan)
-            {
+            if ($plan) {
                 $user->setPlan($plan);
-                $em->flush();
+
+                // Créez une nouvelle facture à chaque paiement
+                $facture = new Facture();
+                $facture->setUser($user);
+                $facture->setPrice($plan->getPrix());
+                $facture->setDate(new \DateTime());
+
+                $entityManager->persist($facture);
+                $entityManager->flush();
             }
 
             $emailForUser = (new Email())
@@ -179,8 +178,6 @@ class StripeController extends AbstractController
                 ->html('<>Bienvenue sur Cloud Storage, votre stockage a été augmenté.</>');
 
             $mailer->send($emailForUser);
-
-
         }
 
         if ($userData) {
@@ -194,14 +191,10 @@ class StripeController extends AbstractController
             $planId = $userData->getPlan();
             $plan = $entityManager->getRepository(Plan::class)->find($planId);
 
-
-
             $facture = new Facture();
             $facture->setUser($user);
             $facture->setPrice($plan->getPrix());
             $facture->setDate(new \DateTime());
-
-
 
             $emailForUserData = (new Email())
                 ->from('storage@contact.com')
@@ -212,27 +205,19 @@ class StripeController extends AbstractController
 
             $mailer->send($emailForUserData);
 
-            if ($plan)
-            {
+            if ($plan) {
                 $user->setPlan($plan);
-
-                $facture = new Facture();
-                $facture->setUser($user);
-                $facture->setPrice($plan->getPrix());
-                $facture->setDate(new \DateTime());
-
-                $entityManager->flush();
             }
+
             $entityManager->persist($user);
             $entityManager->persist($facture);
             $entityManager->flush();
             $request->getSession()->remove('pending_registration');
-
-
         }
 
         return $this->render('stripe/success.html.twig', [
             'controller_name' => 'StripeController',
         ]);
     }
+
 }

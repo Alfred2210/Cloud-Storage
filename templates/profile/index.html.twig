@@ -25,14 +25,16 @@
                         <dt class="text-sm font-medium leading-6 text-gray-900">Abonnement : {{ plan.capacite }} GB</dt>
                     </div>
 
+                    <dt class="text-sm font-medium leading-6 text-gray-900">Facture :</dt>
                     {% for facture in factures %}
                         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 mt-6 border-t border-gray-100 bg-white shadow-sm rounded-lg p-6">
-                            <dt class="text-sm font-medium leading-6 text-gray-900">Facture : </dt>
-                            <dd class="mt-1 text-sm leading-6 text-gray500 sm:mt0 sm:colspan2">
-                                <a href="{{ path('app_facture_show', {'invoiceId': facture.id}) }}" target="_blank">Voir les facture</a>
+                            <dd class="mt-1 text-sm leading-6 text-gray-500 sm:mt0 sm:colspan2">
+                                <a href="{{ path('app_facture_show', {'invoiceId': facture.id}) }}" target="_blank">Voir la facture</a>
+                                <p>Date et heure : {{ "now"|date("d-m-Y H:i:s") }}</p>
                             </dd>
                         </div>
                     {% endfor %}
+
 
                     <div class="bg-white min-h-screen flex items-center justify-center py-24 sm:py-32">
                         <div class="mx-auto max-w-7xl px-6 lg:px-8">
