@@ -6,11 +6,11 @@
     <div class="w-full bg-blue-900 py-3 px-4 flex items-center justify-between">
         <div class="flex items-center space-x-4 mx-auto">
         {% if is_granted('ROLE_SUPER_ADMIN') %}
-            <a href="{{ path('app_files') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Admin</a>
+            <a href="/admin" class="text-white hover:text-blue-400 transition-colors duration-300">Admin</a>
         {% endif %}
             <a href="{{ path('app_files') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Dashboard</a>
             <a href="{{ path('app_plan') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Upgrade</a>
-            <a href="{{ path('app_statistics') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Statistics</a>
+            {# <a href="{{ path('app_statistics') }}" class="text-white hover:text-blue-400 transition-colors duration-300">Statistics</a> #}
 
         </div>
 

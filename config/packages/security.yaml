@@ -34,6 +34,7 @@ security:
         - { path: ^/admin, roles: ROLE_SUPER_ADMIN }
         - { path: ^/user, roles: ROLE_SUPER_ADMIN }
         - { path: ^/stripe, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/statistics, roles: ROLE_SUPER_ADMIN }
         - { path: ^/profile, roles: ROLE_USER }
 
     role_hierarchy:
