@@ -48,7 +48,5 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Utilisateurs', 'fa-solid fa-user', User::class);
         yield MenuItem::linkToCrud('Fichiers', 'fa-solid fa-file', File::class);
         yield MenuItem::linkToUrl ('Statistiques', 'fa-solid fa-square-poll-vertical', '/statistics');
-        yield MenuItem::linkToUrl("Retour a l'acceuil", 'fa fa-home', '/dashboard');
-
     }
 }
