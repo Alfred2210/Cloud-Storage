@@ -29,26 +29,26 @@ private $planRepository;
 
         $planDetails = [
             'Standard' => [
-                '20 GO Stockage',
-                '2 User',
-                '1 Project',
+                '20 GO Stockages',
+                '2 Utilisateurs',
+                '1 Projet',
                 '1000 Messages',
-                'Secure Online Transfer',
+                'Transfert en ligne sécurisé',
             ],
             'Pro' => [
-                '50 GO Stockage',
-                '5 User',
+                '50 GO Stockages',
+                '5 Utilisateurs',
                 '10 Project',
                 '5000 Messages',
-                'Secure Online Transfer',
+                'Transfert en ligne sécurisé',
             ],
             'Business' => [
-                '100 GO Stockage',
-                '10 User',
-                '20 Project',
+                '100 GO Stockages',
+                '10 Utilisateurs',
+                '20 Projets',
                 'Support 24/7',
-                'Secure Online Transfer',
-                'Secure Account',
+                'Transfert en ligne sécurisé',
+                'Compte securisé',
             ],
         ];
 
