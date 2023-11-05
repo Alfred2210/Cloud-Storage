@@ -18,6 +18,9 @@ framework:
     php_errors:
         log: true
 
+    assets:
+        enabled: true
+
 when@test:
     framework:
         test: true

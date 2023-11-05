@@ -1,0 +1,19 @@
+#div-paiement-succes {
+  margin: 150px;
+  padding: 20px;
+  box-shadow: 30px 30px 800px rgba(0, 0, 0, 0.2);
+}
+
+span#icon-succes {
+  color: green;
+  font-size: 100px;
+}
+
+div#div-icon-succes {
+  margin: 0px auto;
+  display: table;
+}
+
+.center {
+  text-align: center;
+}

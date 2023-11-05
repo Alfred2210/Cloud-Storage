@@ -5,12 +5,21 @@
     <title>{% block title %}Welcome!{% endblock %}</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><text y='1.2em' font-size='96'>⚫️</text></svg>">
     <link href="{{ asset('build/app.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {% block stylesheets %}{% endblock %}
 </head>
 <body class="bg-white">
+
 {% block body %}
 
 
 {% endblock %}
 </body>
+
+<style>
+    *{
+        font-family: 'Noto Serif', serif;
+    }
+</style>
 
 </html>

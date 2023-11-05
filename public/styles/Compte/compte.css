@@ -1,0 +1,51 @@
+#title-profile {
+  font-size: 50px;
+  margin-left: 50px;
+}
+
+#information-profile {
+    border-radius: 10px;
+    box-shadow: 30px 30px 800px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    margin: 50px 0px 0px 75px ;
+}
+
+div#general {
+    display: inline-flex;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+div#info{
+    margin-top: 30px;
+    padding:20px 20px 300px 20px;
+}
+
+.border-bottom{
+    border-bottom: 1px solid gray;
+    margin-bottom: 30px;
+}
+
+h1#title-profile {
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Factures */
+
+div#factures{
+    background-color: white;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 30px;
+    margin: 50px 0px 0px 150px;
+    box-shadow: 30px 30px 800px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+td{
+    padding: 50px;
+}
+
