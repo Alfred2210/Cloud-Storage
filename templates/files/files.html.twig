@@ -35,7 +35,7 @@
 
 
 	<div class="flex justify-center">
-		<form id="search-form" class="mt-4">
+		<form id="search-form" class="mt-4 mb-8">
 			<div class="flex items-center bg-white rounded-full shadow-md">
 				<input class="rounded-l-full w-full py-2 px-6 text-gray-700 leading-tight focus:outline-none" id="search-query" type="text" placeholder="Search">
 				<div class="p-4">
@@ -53,11 +53,11 @@
 
 
 		{% for file in files %}
-			<div class="max-w-sm rounded overflow-hidden shadow-lg file ">
+			<div class="max-w-sm rounded overflow-hidden shadow-lg file" style="margin:30px">
 				<div class="px-6 py-4">
 					<div class="font-bold text-xl mb-2 file-name">{{ file.nom }}</div>
 				</div>
-				<div class="px-6 pt-4 pb-2">
+				<div class="px-6 pt-4 pb-2" style="text-align: -webkit-center;">
 					{% if file.type == 'application/pdf' %}
 						<a href="{{ asset('uploads/' ~ file.nom) }}" target="_blank" class="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-700 mr-2 mb-2">Aperçu PDF</a>
 					{% else %}

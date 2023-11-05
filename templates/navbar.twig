@@ -16,10 +16,10 @@
 
         <div class="relative group">
             <button id="profile-button" class="block h-10 w-10 rounded-full overflow-hidden focus:outline-none border-2 border-white">
-                <img src="https://cdn.icon-icons.com/icons2/1769/PNG/512/4092564-about-mobile-ui-profile-ui-user-website_114033.png" alt="avatar">
+                <img src="https://cdn.icon-icons.com/icons2/1769/PNG/512/4092564-about-mobile-ui-profile-ui-user-website_114033.png" alt="avatar" style="padding: 5px;">
             </button>
             <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-300 rounded-lg shadow-lg group-hover:block">
-                <a href="{{ path('app_profile') }}" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white">Mon Profile</a>
+                <a href="{{ path('app_profile') }}" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white" style="text-align:center; border-bottom:1px solid gray">Mon Profile</a>
                 <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white">Logout</a>
             </div>
         </div>
