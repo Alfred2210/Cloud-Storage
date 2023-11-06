@@ -6,7 +6,7 @@
 	{% include 'navbar.twig' %}
 	<div class="py-10 px-8">
 		<div class="flex flex-col items-center mb-6">
-			<h5 class="text-2xl font-semibold mb-2">All Files</h5>
+			<h5 class="text-2xl font-semibold mb-2">Mes fichiers</h5>
 			<div class="flex justify-center space-x-2">
 				<a href="{{ path('app_files', { 'sort': 'date', 'order': 'desc' }) }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-700 bg-white border border-blue-300 rounded-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500{% if sort == 'date' %} bg-blue-100{% endif %}">
 					Date
@@ -23,7 +23,7 @@
 		<div class="flex justify-end space-x-2">
 			<form action="{{ path('app_files_upload') }}" method="post" enctype="multipart/form-data" class="flex items-center">
 				<label for="file-upload" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-700 bg-white border border-blue-300 rounded-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer">
-					Select File
+					Sélectionner un fichier
 				</label>
 				<input type="file" name="file" id="file-upload" class="hidden" required>
 				<button type="submit" class="inline-flex items-center justify-center px-4 py-2 ml-3 text-sm font-medium text-blue-700 bg-white border border-blue-300 rounded-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
